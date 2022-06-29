@@ -1,10 +1,11 @@
 import express from 'express';
-// import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import mongoose from 'mongoose';
 import expressValidator from 'express-validator';
-import { registrationValidator } from './validations/auth';
-import UserModel from './models/User';
+import { registrationValidator } from './validations/auth.js';
+import UserModel from './models/User.js';
+import checkAuth from './utils/checkAuth.js';
 
 const { validationResult } = expressValidator;
 
@@ -19,7 +20,48 @@ const app = express();
 
 app.use(express.json());
 
-// app.post('/login', (req, res) => {})
+app.post('/login', async (req, res) => {
+  try {
+    const user = await UserModel.findOne({ email: req.body.email });
+    if (!user) {
+      return res.status(404).json({
+        message: `Invalid email or password`,
+      });
+    }
+
+    const isValidPassword = await bcrypt.compare(
+      req.body.password,
+      user._doc.passwordHash
+    );
+
+    if (!isValidPassword) {
+      return res.status(400).json({
+        message: `Invalid email or password`,
+      });
+    }
+
+    const token = jwt.sign(
+      {
+        _id: user._id,
+      },
+      'secretKey',
+      {
+        expiresIn: '30d',
+      }
+    );
+
+    const userDoc = user._doc;
+    delete userDoc.passwordHash;
+
+    return res.json({ ...userDoc, token });
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({
+      message: `Something went wrong!`,
+    });
+  }
+});
 
 app.post('/registration', registrationValidator, async (req, res) => {
   try {
@@ -42,10 +84,45 @@ app.post('/registration', registrationValidator, async (req, res) => {
 
     const user = await doc.save();
 
-    return res.json(user);
+    const token = jwt.sign(
+      {
+        _id: user._id,
+      },
+      'secretKey',
+      {
+        expiresIn: '30d',
+      }
+    );
+
+    const userDoc = user._doc;
+    delete userDoc.passwordHash;
+
+    return res.json({ ...userDoc, token });
   } catch (error) {
     console.log(error);
 
+    return res.status(500).json({
+      message: `Something went wrong!`,
+    });
+  }
+});
+
+app.get('/user', checkAuth, async (req, res) => {
+  try {
+    const user = await UserModel.finsOneById(req.userId);
+
+    if (!user) {
+      res.status(404).json({
+        message: 'User is not find',
+      });
+    }
+
+    const userDoc = user._doc;
+    delete userDoc.passwordHash;
+
+    return res.json(userDoc);
+  } catch (error) {
+    console.log(error);
     return res.status(500).json({
       message: `Something went wrong!`,
     });
