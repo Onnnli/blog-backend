@@ -1,9 +1,14 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import { registrationValidator } from './validations/auth.js';
+import {
+  registrationValidator,
+  loginValidation,
+  postCreateValidation,
+} from './validations.js';
 import checkAuth from './utils/checkAuth.js';
-import { login, registration, getUser } from './controllers/UserController.js';
+import * as UserController from './controllers/UserController.js';
+import * as PostController from './controllers/PostController.js';
 
 dotenv.config();
 
@@ -13,9 +18,13 @@ const app = express();
 
 app.use(express.json());
 
-app.post('/login', login);
-app.post('/registration', registrationValidator, registration);
-app.get('/user', checkAuth, getUser);
+app.post('/login', loginValidation, UserController.login);
+app.post('/registration', registrationValidator, UserController.registration);
+app.get('/user', checkAuth, UserController.getUser);
+
+app.post('/posts', checkAuth, postCreateValidation, PostController.createPost);
+app.get('/posts', checkAuth, PostController.getAllPosts);
+app.get('/posts/:id', checkAuth, PostController.getPost);
 
 mongoose
   .connect(process.env.MONGO_URL)
