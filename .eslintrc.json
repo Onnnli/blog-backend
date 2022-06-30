@@ -2,7 +2,8 @@
     "extends": ["airbnb", "prettier", "plugin:node/recommended"],
     "plugins": ["prettier"],
     "rules": {
-      "import/extensions":  "always",
+      "no-underscore-dangle": "off",
+      "import/extensions":  "off",
         "prettier/prettier": ["error", {}, {
             "usePrettierrc": true,
             "endOfLine": "auto"

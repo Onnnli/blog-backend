@@ -2,9 +2,9 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import {
-  registrationValidator,
   loginValidation,
   postCreateValidation,
+  registrationValidator,
 } from './validations.js';
 import checkAuth from './utils/checkAuth.js';
 import * as UserController from './controllers/UserController.js';
@@ -12,7 +12,7 @@ import * as PostController from './controllers/PostController.js';
 
 dotenv.config();
 
-const PORT = process.env.PORT;
+const { PORT } = process.env;
 
 const app = express();
 

@@ -11,7 +11,7 @@ export const createPost = async (req, res) => {
     });
 
     const post = await doc.save();
-    res.json(post);
+    return res.json(post);
   } catch (error) {
     console.log(error);
     return res.status(500).json({
@@ -24,7 +24,7 @@ export const getAllPosts = async (req, res) => {
   try {
     const posts = await PostModel.find().populate('user').exec();
 
-    res.json(posts);
+    return res.json(posts);
   } catch (error) {
     console.log(error);
     return res.status(500).json({
@@ -37,7 +37,7 @@ export const getPost = async (req, res) => {
   try {
     const postId = req.params.id;
 
-    PostModel.findOneAndUpdate(
+    return PostModel.findOneAndUpdate(
       {
         _id: postId,
       },

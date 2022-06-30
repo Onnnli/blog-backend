@@ -10,7 +10,7 @@ export default (req, res, next) => {
 
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
     req.userId = decoded._id;
-    next();
+    return next();
   } catch (error) {
     console.log(error);
     return res.status(403).json({ message: 'Authorization error' });
