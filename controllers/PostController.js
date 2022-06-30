@@ -37,7 +37,7 @@ export const getPost = async (req, res) => {
   try {
     const postId = req.params.id;
 
-    return PostModel.findOneAndUpdate(
+    PostModel.findOneAndUpdate(
       {
         _id: postId,
       },
@@ -66,6 +66,66 @@ export const getPost = async (req, res) => {
         return res.json(doc);
       }
     ).populate('user');
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: `Something went wrong 2!`,
+    });
+  }
+};
+
+export const deletePost = async (req, res) => {
+  try {
+    const postId = req.params.id;
+
+    PostModel.findOneAndDelete(
+      {
+        _id: postId,
+      },
+      (err, doc) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            message: `Something went wrong 2!`,
+          });
+        }
+
+        if (!doc) {
+          return res.status(500).json({
+            message: `Something went wrong 2!`,
+          });
+        }
+        return res.json({ message: 'Post was removed' });
+      }
+    );
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: `Something went wrong 2!`,
+    });
+  }
+};
+
+export const updatePost = async (req, res) => {
+  try {
+    const postId = req.params.id;
+
+    await PostModel.updateOne(
+      {
+        _id: postId,
+      },
+      {
+        title: req.body.title,
+        text: req.body.text,
+        imageUrl: req.body.imageUrl,
+        user: req.userId,
+        tags: req.body.tags,
+      }
+    );
+
+    return res.json({
+      message: 'Post was updated',
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).json({

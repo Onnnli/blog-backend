@@ -1,18 +1,9 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import expressValidator from 'express-validator';
 import UserModel from '../models/User.js';
-
-const { validationResult } = expressValidator;
 
 export const registration = async (req, res) => {
   try {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      return res.json(errors.array()).status(400);
-    }
-
     const { password } = req.body;
     const salt = await bcrypt.genSalt(10);
     const passwordHash = await bcrypt.hash(password, salt);
