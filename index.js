@@ -3,15 +3,16 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import multer from 'multer';
 import {
+  PostController,
+  UploadController,
+  UserController,
+} from './controllers/index.js';
+import {
   loginValidation,
   postCreateValidation,
   registrationValidator,
 } from './validations.js';
-import checkAuth from './utils/checkAuth.js';
-import handleValidationErrors from './utils/handleValidationErrors.js';
-import * as UserController from './controllers/UserController.js';
-import * as PostController from './controllers/PostController.js';
-import * as UploadController from './controllers/UploadController.js';
+import { checkAuth, handleValidationErrors } from './utils/index.js';
 
 dotenv.config();
 

@@ -1,6 +1,9 @@
 {
     "extends": ["airbnb", "prettier", "plugin:node/recommended"],
     "plugins": ["prettier"],
+    "parserOptions": {
+      "ecmaVersion": 2020
+    },
     "rules": {
       "no-underscore-dangle": "off",
       "import/prefer-default-export": "off",
