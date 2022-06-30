@@ -25,6 +25,13 @@ app.get('/user', checkAuth, UserController.getUser);
 app.post('/posts', checkAuth, postCreateValidation, PostController.createPost);
 app.get('/posts', checkAuth, PostController.getAllPosts);
 app.get('/posts/:id', checkAuth, PostController.getPost);
+app.delete('/posts/:id', checkAuth, PostController.deletePost);
+app.patch(
+  '/posts/:id',
+  checkAuth,
+  postCreateValidation,
+  PostController.updatePost
+);
 
 mongoose
   .connect(process.env.MONGO_URL)
