@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import multer from 'multer';
+import cors from 'cors';
 import {
   PostController,
   UploadController,
@@ -31,6 +32,7 @@ const upload = multer({ storage });
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 
