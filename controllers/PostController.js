@@ -133,3 +133,21 @@ export const updatePost = async (req, res) => {
     });
   }
 };
+
+export const getTags = async (req, res) => {
+  try {
+    const posts = await PostModel.find().limit(5).exec();
+
+    const tags = posts
+      .map((post) => post.tags)
+      .flat()
+      .slice(0, 5);
+
+    return res.json(tags);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: `Something went wrong 2!`,
+    });
+  }
+};
