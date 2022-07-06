@@ -56,7 +56,7 @@ app.post(
   handleValidationErrors,
   PostController.createPost
 );
-app.get('/posts', checkAuth, PostController.getAllPosts);
+app.get('/posts', PostController.getAllPosts);
 app.get('/posts/tags', PostController.getTags);
 app.get('/posts/:id', checkAuth, PostController.getPost);
 app.delete('/posts/:id', checkAuth, PostController.deletePost);
