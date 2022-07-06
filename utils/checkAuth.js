@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 
 export default (req, res, next) => {
   try {
-    const token = (req.headers.authorization || '').split(' ')[1];
+    const token = req.headers.authorization;
 
     if (!token) {
       return res.status(403).json({ message: 'Authorization error' });
@@ -10,6 +10,7 @@ export default (req, res, next) => {
 
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
     req.userId = decoded._id;
+
     return next();
   } catch (error) {
     console.log(error);

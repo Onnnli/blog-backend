@@ -85,11 +85,11 @@ export const login = async (req, res) => {
 
 export const getUser = async (req, res) => {
   try {
-    const user = await UserModel.finsOneById(req.userId);
+    const user = await UserModel.findById(req.userId);
 
     if (!user) {
       res.status(404).json({
-        message: 'User is not find',
+        message: 'User is not found',
       });
     }
 
