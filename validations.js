@@ -25,6 +25,6 @@ export const postCreateValidation = [
       min: 5,
     })
     .isString(),
-  body('tags', 'Invalid tags').optional().isString(),
+  body('tags', 'Invalid tags').optional().isArray(),
   body('imageUrl', 'Invalid image url').optional().isString(),
 ];

@@ -136,7 +136,7 @@ export const updatePost = async (req, res) => {
 
 export const getTags = async (req, res) => {
   try {
-    const posts = await PostModel.find().limit(5).exec();
+    const posts = await PostModel.find().exec();
 
     const tags = posts
       .map((post) => post.tags)

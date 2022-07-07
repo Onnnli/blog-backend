@@ -1,5 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import fs from 'fs';
 import dotenv from 'dotenv';
 import multer from 'multer';
 import cors from 'cors';
@@ -21,6 +22,10 @@ const { PORT } = process.env;
 
 const storage = multer.diskStorage({
   destination: (_, __, callback) => {
+    if (!fs.existsSync('uploads')) {
+      fs.mkdirSync('uploads');
+    }
+
     callback(null, 'uploads');
   },
   filename: (_, file, callback) => {
