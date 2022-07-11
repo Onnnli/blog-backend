@@ -28,3 +28,11 @@ export const postCreateValidation = [
   body('tags', 'Invalid tags').optional().isArray(),
   body('imageUrl', 'Invalid image url').optional().isString(),
 ];
+
+export const commentValidation = [
+  body('text', 'Post text is required')
+    .isLength({
+      min: 5,
+    })
+    .isString(),
+];

@@ -5,11 +5,13 @@ import dotenv from 'dotenv';
 import multer from 'multer';
 import cors from 'cors';
 import {
+  CommentController,
   PostController,
   UploadController,
   UserController,
 } from './controllers/index.js';
 import {
+  commentValidation,
   loginValidation,
   postCreateValidation,
   registrationValidator,
@@ -64,6 +66,16 @@ app.post(
 app.get('/posts', PostController.getAllPosts);
 app.get('/posts/tags', PostController.getTags);
 app.get('/posts/:id', checkAuth, PostController.getPost);
+
+app.post(
+  '/posts/:id/add-comment',
+  checkAuth,
+  commentValidation,
+  CommentController.addComment
+);
+
+app.get('/posts/:id/comments', checkAuth, CommentController.getComments);
+
 app.delete('/posts/:id', checkAuth, PostController.deletePost);
 app.patch(
   '/posts/:id',
