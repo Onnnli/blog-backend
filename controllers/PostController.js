@@ -90,6 +90,23 @@ export const getPopularPost = async (req, res) => {
   }
 };
 
+export const getPostsByTag = async (req, res) => {
+  try {
+    const tagId = req.params.id;
+
+    const posts = await PostModel.find({
+      tags: { $elemMatch: { $eq: tagId } },
+    });
+
+    res.json(posts);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: `Something went wrong !`,
+    });
+  }
+};
+
 export const deletePost = async (req, res) => {
   try {
     const postId = req.params.id;

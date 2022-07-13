@@ -65,6 +65,7 @@ app.post(
 );
 app.get('/posts', PostController.getAllPosts);
 app.get('/posts/popular', PostController.getPopularPost);
+app.get('/tags/:id', PostController.getPostsByTag);
 app.get('/posts/tags', PostController.getTags);
 app.get('/posts/:id', checkAuth, PostController.getPost);
 
