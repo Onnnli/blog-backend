@@ -86,12 +86,7 @@ app.patch(
   handleValidationErrors,
   PostController.updatePost
 );
-app.post(
-  '/upload',
-  checkAuth,
-  upload.single('image'),
-  UploadController.uploader
-);
+app.post('/upload', upload.single('image'), UploadController.uploader);
 
 mongoose
   .connect(process.env.MONGO_URL)

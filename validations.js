@@ -8,7 +8,7 @@ export const registrationValidator = [
     min: 5,
   }),
   body('fullName', 'Invalid full name length').isLength({ min: 1 }),
-  body('avatarUrl', 'Invalid avatar').optional().isURL(),
+  body('avatarUrl', 'Invalid avatar').optional().isString(),
 ];
 
 export const loginValidation = [

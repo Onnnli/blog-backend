@@ -4,14 +4,14 @@ import UserModel from '../models/User.js';
 
 export const registration = async (req, res) => {
   try {
-    const { password } = req.body;
+    const { password, email, fullName, avatarUrl } = req.body;
     const salt = await bcrypt.genSalt(10);
     const passwordHash = await bcrypt.hash(password, salt);
 
     const doc = new UserModel({
-      email: req.body.email,
-      fullName: req.body.fullName,
-      avatarUrl: req.body.avatarUrl,
+      email,
+      fullName,
+      avatarUrl,
       passwordHash,
     });
 
