@@ -22,7 +22,10 @@ export const createPost = async (req, res) => {
 
 export const getAllPosts = async (req, res) => {
   try {
-    const posts = await PostModel.find().populate('user').exec();
+    const posts = await PostModel.find()
+      .sort({ _id: -1 })
+      .populate('user')
+      .exec();
 
     return res.json(posts);
   } catch (error) {
@@ -70,6 +73,19 @@ export const getPost = async (req, res) => {
     console.log(error);
     return res.status(500).json({
       message: `Something went wrong 2!`,
+    });
+  }
+};
+
+export const getPopularPost = async (req, res) => {
+  try {
+    const posts = await PostModel.find().sort({ viewsCount: -1 });
+
+    res.json(posts);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: `Something went wrong !`,
     });
   }
 };
